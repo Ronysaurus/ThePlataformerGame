@@ -9,14 +9,15 @@ var velocity = Vector3.ZERO
 func _physics_process(delta):
 	var direction = Vector3.ZERO
 	
-	if Input.is_action_pressed("move_right"):
-		direction.x += 1
-	if Input.is_action_pressed("move_left"):
-		direction.x -= 1
+	direction.x =  Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
-		
+		if direction.x > 0:
+			$Model.rotation_degrees.y = 90
+		else:
+			$Model.rotation_degrees.y = 270
+	
 	velocity.x = direction.x * move_speed;
 	
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
